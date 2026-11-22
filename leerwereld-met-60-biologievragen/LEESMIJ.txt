@@ -1,0 +1,15 @@
+LEERWERELD INSTALLEREN OP ANDROID
+
+1. Pak deze ZIP uit.
+2. Upload ALLE bestanden uit deze map naar de hoofdmap van je GitHub-repository.
+3. Vervang de bestaande index.html wanneer GitHub daarom vraagt.
+4. Commit changes en wacht tot GitHub Pages is bijgewerkt.
+5. Open https://finnvanderlee-creator.github.io/leerwereld/ in Google Chrome op Android.
+6. Tik op ⋮ (drie puntjes) en kies 'App installeren' of 'Toevoegen aan startscherm'.
+7. Bevestig de installatie.
+
+Belangrijk:
+- Laat de bestanden in de hoofdmap naast index.html staan.
+- Upload niet alleen de ZIP; pak hem eerst uit.
+- Deze PWA kan online worden gebruikt. De service worker bewaart de basisbestanden,
+  maar onderdelen die internet/Supabase/AI nodig hebben blijven internet nodig hebben.
