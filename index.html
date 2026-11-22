@@ -6,7 +6,7 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101827;--card:#192438;--tx:#edf2ff;--mu:#aab6ca;--ac:#a995ff;--ac2:#f2c36b;--acl:#292b49;--bd:#34435b;--ok:#55d6ad;--no:#ff7b8b;--okb:#183b3a;--nob:#482b3a}}
 :root[data-theme="dark"]{--bg:#101827;--card:#192438;--tx:#edf2ff;--mu:#aab6ca;--ac:#a995ff;--ac2:#f2c36b;--acl:#292b49;--bd:#34435b;--ok:#55d6ad;--no:#ff7b8b;--okb:#183b3a;--nob:#482b3a}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+body{margin:0;background:var(--bg);color:var(--tx);font:var(--lw-font,16px)/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
 main{max-width:none;margin:0;padding:0}
 button,input{font:inherit;color:var(--tx)}button{cursor:pointer}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;margin:12px 0}
@@ -164,6 +164,14 @@ main#app{max-width:none;margin:0;padding:0}
 .bub.a{align-self:flex-start;background:var(--acl);border-bottom-left-radius:4px}.bub.typing{opacity:.7}
 .chat-bar{display:flex;gap:8px;align-items:flex-end}.chat-bar textarea{flex:1;min-height:46px;max-height:140px;resize:none;border-radius:14px;border:2px solid var(--bd);background:var(--card);color:var(--tx);padding:11px 14px;font:inherit}
 .chat-bar .btn{margin:0;width:auto;padding:12px 18px}
+
+:root[data-accent="blue"]{--ac:#287fbd;--acl:#e5f2fc;--ac2:#e99b3d}
+:root[data-accent="green"]{--ac:#25866b;--acl:#e3f5ee;--ac2:#e5ad45}
+:root[data-accent="pink"]{--ac:#c05b91;--acl:#fbeaf3;--ac2:#e5ad45}
+:root[data-accent="purple"]{--ac:#6558d3;--acl:#eeecff;--ac2:#e9ad45}
+:root[data-theme="dark"][data-accent="blue"]{--acl:#203b59}:root[data-theme="dark"][data-accent="green"]{--acl:#1d4038}:root[data-theme="dark"][data-accent="pink"]{--acl:#482b40}
+body.lw-compact .card{padding:11px;margin:8px 0}body.lw-reduce-motion *,body.lw-reduce-motion *:before,body.lw-reduce-motion *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid var(--bd)}.settings-row:last-child{border:0}.settings-row select,.settings-row input[type=checkbox]{accent-color:var(--ac)}.settings-row select{max-width:48%;padding:9px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}.settings-row small{display:block;color:var(--mu);font-size:.82rem}.settings-row b{display:block}.settings-actions{display:flex;flex-wrap:wrap;gap:8px}.settings-actions .btn{margin:6px 0;width:auto}
 </style></head><body><script>window.onerror=function(){var a=document.getElementById("app");if(a&&!a.innerHTML){a.innerHTML='<div style="padding:24px;font-family:sans-serif;color:#888"><h3>Je browser is te oud</h3><p>Werk Chrome of Android System WebView bij via de Play Store, of probeer een andere browser (Firefox, Edge, Samsung Internet).</p></div>'}}</script>
 <main id="app"></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -236,7 +244,7 @@ const rankOf = x => { let i = 0; RANKS.forEach((r, k) => { if (x >= r[0])
     i = k; }); return i; };
 const $ = s => document.querySelector(s);
 const root = $("#app");
-const PRO_CODE_HASH = "9147e669a532f4da7bd695bdb7aade2843c12f195ec7f11061daf275d0cc5df5";
+const PRO_CODE = "HOWTOGETGOODRESULTS";
 let proActive = localStorage.getItem("leerwereldPro") === "yes";
 const SUPABASE_URL = "https://fvdgxkrxqvvdwfjeobqr.supabase.co";
 const SUPABASE_KEY = "sb_publishable_n9r10-bmOFsuH2GK4JVjrQ_RMD5jB6o";
@@ -509,7 +517,7 @@ function menuPanel() {
         return "";
     const nav = (id, label, icon, desc) => `<button class="opt" data-nav="${id}"><b>${icon} ${label}</b><span>${desc}</span></button>`;
     const account = S.guest ? `<button class="opt" id="m-acc"><b>👤 Account maken / inloggen</b><span>Bewaar je voortgang online met je account.</span></button>` : `<button class="opt" id="m-out"><b>🚪 Uitloggen</b><span>Je voortgang blijft bewaard op dit apparaat.</span></button>`;
-    return `<div class="card"><div class="eyebrow">HOOFDMENU</div><div class="grid g2 menu-grid" style="margin-top:10px">${nav("play", "Biologie", "🧬", "Basisstof 3 en 4 oefenen")}${nav("fr", "Frans", "🇫🇷", "-er-werkwoorden en avoir")}${nav("ak", "Aardrijkskunde", "🗺️", "Topografie, provincies en wateren")}${nav("rank", "Voortgang & ranglijst", "🏆", "Bekijk je scores en XP")}${nav("ai", "AI-quiz", "🤖", "Quiz maken van je boek of tekst")}${nav("pro", "Leerwereld PRO", "✦", "Bekijk wat je extra kunt ontgrendelen")}${nav("privacy", "Privacy & mijn gegevens", "🔒", "Wat we bewaren en wat jij kunt doen")}${S.isAdmin ? nav("admin", "Beheer (admin)", "🛠️", "Gebruikers bekijken en beheren") : ""}</div><div style="margin-top:10px">${account}</div></div>`;
+    return `<div class="card"><div class="eyebrow">HOOFDMENU</div><div class="grid g2 menu-grid" style="margin-top:10px">${nav("play", "Biologie", "🧬", "Basisstof 3 en 4 oefenen")}${nav("fr", "Frans", "🇫🇷", "-er-werkwoorden en avoir")}${nav("ak", "Aardrijkskunde", "🗺️", "Topografie, provincies en wateren")}${nav("rank", "Voortgang & ranglijst", "🏆", "Bekijk je scores en XP")}${nav("ai", "AI-quiz", "🤖", "Quiz maken van je boek of tekst")}${nav("pro", "Leerwereld PRO", "✦", "Bekijk wat je extra kunt ontgrendelen")}${nav("privacy", "Privacy & mijn gegevens", "🔒", "Wat we bewaren en wat jij kunt doen")}${nav("settings", "Instellingen", "⚙️", "Pas Leerwereld aan jouw voorkeuren aan") }${S.isAdmin ? nav("admin", "Beheer (admin)", "🛠️", "Gebruikers bekijken en beheren") : ""}</div><div style="margin-top:10px">${account}</div></div>`;
 }
 function doSetPw() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -536,7 +544,7 @@ function gate() {
     const pw2 = `<input class='t' id='pw2' type='password' autocomplete='new-password' placeholder='Herhaal wachtwoord' style='margin-top:8px'>`;
     if (S.authMode === "login")
         return `<div class='card'><h3 style='margin:0 0 6px'>Welkom terug 👋</h3><p class='mu' style='margin:0 0 10px'>Log in met je e-mailadres.</p>${email}<input class='t' id='pw' type='password' autocomplete='current-password' placeholder='Wachtwoord' style='margin-top:8px'>${e}<button class='btn' id='li'>Inloggen</button><button class='btn s gh2' id='reset'>Wachtwoord vergeten?</button><button class='btn s gh2' id='show-create'>Nieuw account maken</button>${g}</div>`;
-    return `<div class='card'><h3 style='margin:0 0 6px'>Maak je account 🌱</h3><p class='mu' style='margin:0 0 10px'>Gebruik een e-mailadres, een <b>bijnaam</b> (liever geen echte naam) en een wachtwoord. Je bijnaam is zichtbaar op de ranglijst, je e-mailadres niet.</p><input class='t' id='nick' maxlength='16' placeholder='Bijnaam (geen echte naam)' value='${esc(S.draft || "")}'>${email}<input class='t' id='pw' type='password' autocomplete='new-password' placeholder='Wachtwoord (minstens 8 tekens)' style='margin-top:8px'>${pw2}<label style='display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:.92rem'><input type='checkbox' id='agree' style='margin-top:4px'><span>Ik heb de privacyverklaring gelezen en ga akkoord.</span></label><details style='margin-top:8px'><summary style='cursor:pointer;color:var(--ac)'>Privacyverklaring lezen</summary>${privacyBody()}</details>${e}<button class='btn' id='nk'>Account aanmaken</button><button class='btn s gh2' id='show-login'>Ik heb al een account</button>${g}</div>`;
+    return `<div class='card'><h3 style='margin:0 0 6px'>Maak je account 🌱</h3><p class='mu' style='margin:0 0 10px'>Gebruik een e-mailadres, een <b>bijnaam</b> (liever geen echte naam) en een wachtwoord. Je bijnaam is zichtbaar op de ranglijst, je e-mailadres niet.</p><input class='t' id='nick' maxlength='16' placeholder='Bijnaam (geen echte naam)' value='${esc(S.draft || "")}'>${email}<input class='t' id='pw' type='password' autocomplete='new-password' placeholder='Wachtwoord (minstens 8 tekens)' style='margin-top:8px'>${pw2}<label style='display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:.92rem'><input type='checkbox' id='agree' style='margin-top:4px'><span>Ik heb de privacyverklaring gelezen en ga akkoord. Ben ik jonger dan 16, dan heb ik toestemming van een ouder of verzorger.</span></label><details style='margin-top:8px'><summary style='cursor:pointer;color:var(--ac)'>Privacyverklaring lezen</summary>${privacyBody()}</details>${e}<button class='btn' id='nk'>Account aanmaken</button><button class='btn s gh2' id='show-login'>Ik heb al een account</button>${g}</div>`;
 }
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -945,14 +953,11 @@ function akPage() {
     return `<div class="card"><div class="mu" style="display:flex;justify-content:space-between"><span>Vraag ${s.i + 1} van ${s.list.length}</span><span>${proActive ? `❤️ ${s.lives} levens · ` : ""}🗺️ ${q.cat} · +${s.ok * 20} XP</span></div><div class="bar"><i style="width:${s.i / s.list.length * 100}%"></i></div><div class="q">${q.q}</div><div class="grid">${frShuffle(q.o).map(o => `<button class="opt ${s.choice !== null ? (o === q.a ? "ok" : (o === s.choice ? "no" : "")) : ""}" data-ak-pick="${esc(o)}" ${s.choice !== null ? "disabled" : ""}>${esc(o)}</button>`).join("")}</div>
  ${s.choice !== null ? `<div class="fb">${s.choice === q.a ? "✅ GOED ANTWOORD! +20 XP" : "❌ Niet goed. Het goede antwoord is: " + esc(q.a)}</div><button class="btn" id="ak-next">${s.i === s.list.length - 1 ? "Resultaat bekijken" : "Volgende vraag"}</button>` : ""}</div>`;
 }
-async function unlockPro() {
+function unlockPro() {
     const input = $("#pro-code"), note = $("#pro-note");
     if (!input)
         return;
-    const val = input.value.trim().toUpperCase();
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(val));
-    const hex = [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-    if (hex === PRO_CODE_HASH) {
+    if (input.value.trim().toUpperCase() === PRO_CODE) {
         proActive = true;
         localStorage.setItem("leerwereldPro", "yes");
         document.body.classList.add("pro-mode");
@@ -992,7 +997,7 @@ function side() {
     const m = S.me, r = rankOf(m.xp), nx = RANKS[r + 1], pct = nx ? Math.round((m.xp - RANKS[r][0]) / (nx[0] - RANKS[r][0]) * 100) : 100;
     const it = (id, ico, label) => `<button class="nv${S.tab === id ? " on" : ""}" data-nav="${id}"><span>${ico}</span>${label}</button>`;
     return `<div class="brand"><div class="logo sm">📚</div><div><b>Leerwereld</b>${proActive ? '<div class="badge" style="margin:0">✦ PRO actief</div>' : ""}</div></div>
- <nav class="nvs">${it("home", "🏠", "Home")}<div class="nvh">VAKKEN</div>${it("fr", "🇫🇷", "Frans")}${it("ak", "🗺️", "Aardrijkskunde")}${it("play", "🧬", "Biologie")}<div class="nvh">EXTRA</div>${it("chat", "💬", "AI-assistent")}${it("ai", "🤖", "AI-quiz")}${it("rank", "🏆", "Voortgang & ranglijst")}${it("pro", "✦", "Leerwereld PRO")}${it("privacy", "🔒", "Privacy")}${S.isAdmin ? it("admin", "🛠️", "Beheer") : ""}</nav>
+ <nav class="nvs">${it("home", "🏠", "Home")}<div class="nvh">VAKKEN</div>${it("fr", "🇫🇷", "Frans")}${it("ak", "🗺️", "Aardrijkskunde")}${it("play", "🧬", "Biologie")}<div class="nvh">EXTRA</div>${it("chat", "💬", "AI-assistent")}${it("ai", "🤖", "AI-quiz")}${it("rank", "🏆", "Voortgang & ranglijst")}${it("pro", "✦", "Leerwereld PRO")}${it("privacy", "🔒", "Privacy")}${it("settings", "⚙️", "Instellingen")}${S.isAdmin ? it("admin", "🛠️", "Beheer") : ""}</nav>
  <div class="acc"><div class="rankrow"><div class="rk">${RANKS[r][1]}</div><div class="grow"><b>${esc(m.nick)}</b><div class="mu">${RANKS[r][2]}</div></div></div><div class="bar"><i style="width:${pct}%"></i></div><div class="mu">${m.xp} XP${nx ? " · nog " + (nx[0] - m.xp) + " tot " + nx[2] : ""}</div>
  ${S.saveErr ? '<div class="mu" style="margin-top:6px;color:var(--no)">Opslaan lukt nu niet.</div>' : ""}${navigator.onLine ? "" : '<div class="mu" style="margin-top:6px">📴 Offline: je voortgang wordt later gesynchroniseerd.</div>'}
  <button class="btn sm gh2 o" id="m-out" style="width:100%;margin-top:10px">🚪 Uitloggen</button></div>`;
@@ -1023,10 +1028,23 @@ function proInfoPage() {
   <button class="btn s gh2" id="pro-back" style="margin-top:14px">Terug naar hoofdmenu</button>
  </div>`;
 }
+function getPrefs(){try{return Object.assign({theme:"system",accent:"purple",font:"16",compact:false,reducedMotion:false,sound:true},JSON.parse(localStorage.getItem("lw_settings")||"{}"));}catch(e){return {theme:"system",accent:"purple",font:"16",compact:false,reducedMotion:false,sound:true};}}
+function applyPrefs(){const p=getPrefs(),r=document.documentElement;r.dataset.accent=p.accent;if(p.theme==="system")r.removeAttribute("data-theme");else r.dataset.theme=p.theme;document.body.style.setProperty("--lw-font",p.font+"px");document.body.classList.toggle("lw-compact",!!p.compact);document.body.classList.toggle("lw-reduce-motion",!!p.reducedMotion);}
+function settingsPage(){const p=getPrefs();return `<div class="card"><div class="eyebrow">PERSONALISEER</div><h2>⚙️ Instellingen</h2><p class="lead">Maak Leerwereld prettig om te gebruiken. Je keuzes worden op dit apparaat bewaard.</p>
+<div class="settings-row"><div><b>Weergave</b><small>Kies licht, donker of automatisch.</small></div><select id="set-theme"><option value="system" ${p.theme==="system"?"selected":""}>Automatisch</option><option value="light" ${p.theme==="light"?"selected":""}>Licht</option><option value="dark" ${p.theme==="dark"?"selected":""}>Donker</option></select></div>
+<div class="settings-row"><div><b>Kleurthema</b><small>Kies de accentkleur van knoppen en onderdelen.</small></div><select id="set-accent"><option value="purple" ${p.accent==="purple"?"selected":""}>Paars</option><option value="blue" ${p.accent==="blue"?"selected":""}>Blauw</option><option value="green" ${p.accent==="green"?"selected":""}>Groen</option><option value="pink" ${p.accent==="pink"?"selected":""}>Roze</option></select></div>
+<div class="settings-row"><div><b>Tekstgrootte</b><small>Maak teksten comfortabeler leesbaar.</small></div><select id="set-font"><option value="14" ${p.font==="14"?"selected":""}>Klein</option><option value="16" ${p.font==="16"?"selected":""}>Normaal</option><option value="18" ${p.font==="18"?"selected":""}>Groot</option><option value="20" ${p.font==="20"?"selected":""}>Extra groot</option></select></div>
+<div class="settings-row"><div><b>Compacte weergave</b><small>Toon kaarten met iets minder tussenruimte.</small></div><input type="checkbox" id="set-compact" ${p.compact?"checked":""}></div>
+<div class="settings-row"><div><b>Minder beweging</b><small>Beperk animaties en overgangen.</small></div><input type="checkbox" id="set-motion" ${p.reducedMotion?"checked":""}></div>
+<div class="settings-row"><div><b>Geluidseffecten</b><small>Voorkeur voor geluid in onderdelen die dit ondersteunen.</small></div><input type="checkbox" id="set-sound" ${p.sound?"checked":""}></div>
+<div class="settings-actions"><button class="btn" id="set-save">Instellingen opslaan</button><button class="btn s gh2" id="set-reset">Standaard herstellen</button></div><p class="mu" id="set-note" aria-live="polite">Je instellingen gelden alleen op dit apparaat en veranderen je account of leerresultaten niet.</p></div>
+<div class="card"><h3>👤 Account</h3><p class="mu">Beheer je account via de knoppen hieronder. Uitloggen verwijdert je online voortgang niet.</p><div class="settings-actions">${S.guest?'<button class="btn s" id="m-acc">Inloggen / account maken</button>':'<button class="btn s gh2" id="m-out">Uitloggen</button>'}<button class="btn s gh2" data-nav="privacy">Privacy & mijn gegevens</button></div></div>
+<div class="card"><h3>📦 Over deze app</h3><p class="mu">Leerwereld helpt je oefenen met Biologie, Frans en Aardrijkskunde. Zorg dat je app up-to-date is om nieuwe functies te gebruiken.</p><p class="mu">Versie: instellingen-update 1.1</p></div>`;}
 function render() {
     checkRankUp();
     document.body.classList.toggle('ak-mode', S.tab === 'ak');
     document.body.classList.toggle('pro-mode', proActive);
+    applyPrefs();
     if (S.booting) {
         root.innerHTML = '<div class="boot"><div class="logo big">📚</div><div class="ai-spin"></div></div>';
         return;
@@ -1051,6 +1069,8 @@ function render() {
         body = adminPage();
     else if (S.tab === "privacy")
         body = privacyPage();
+    else if (S.tab === "settings")
+        body = settingsPage();
     else if (S.tab === "ai")
         body = aiPage();
     else if (S.tab === "chat")
@@ -1126,6 +1146,8 @@ function bind() {
     on("#sv", doSetPw);
     on("#li", doLogin);
     on("#guest", guest);
+    on("#set-save", () => {const p={theme:$("#set-theme").value,accent:$("#set-accent").value,font:$("#set-font").value,compact:$("#set-compact").checked,reducedMotion:$("#set-motion").checked,sound:$("#set-sound").checked};localStorage.setItem("lw_settings",JSON.stringify(p));applyPrefs();const n=$("#set-note");if(n)n.textContent="✓ Je instellingen zijn opgeslagen op dit apparaat.";});
+    on("#set-reset", () => {localStorage.removeItem("lw_settings");applyPrefs();render();});
     const pwi = $("#pw");
     if (pwi)
         pwi.onkeydown = ev => { if (ev.key === "Enter") {
@@ -1260,7 +1282,7 @@ function privacyBody() {
  <h4 style="margin:14px 0 4px">Op je eigen apparaat</h4><p style="margin:0">De app bewaart je laatste voortgang op je apparaat, zodat hij ook offline werkt, en of PRO aan staat. Dat blijft op jouw apparaat.</p>
  <h4 style="margin:14px 0 4px">Hoe lang bewaren we ze?</h4><p style="margin:0">Zolang je account bestaat. Verwijder je je account, dan worden je profiel en je inloggegevens verwijderd.</p>
  <h4 style="margin:14px 0 4px">Jouw rechten</h4><p style="margin:0">Je kunt jezelf verbergen van de ranglijst, je gegevens downloaden en je account met alle gegevens verwijderen. Dat doe je onder <b>Menu → Privacy & mijn gegevens</b>.</p>
- <h4 style="margin:14px 0 4px">Tip</h4><p style="margin:0">Gebruik een bijnaam en geen echte naam of andere persoonlijke gegevens.</p>
+ <h4 style="margin:14px 0 4px">Tip</h4><p style="margin:0">Gebruik een bijnaam en geen echte naam of andere persoonlijke gegevens. Ben je jonger dan 16? Vraag dan eerst toestemming aan een ouder of verzorger.</p>
  <p class="mu" style="margin:14px 0 0">Laatst bijgewerkt: 20 november 2026.</p></div>`;
 }
 function privacyPage() {
